@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css">
+    <style>
+        :root {
+            --light-bg: #f8f9fa;
+            --light-surface: #ffffff;
+            --light-text: #212529;
+            --light-text-secondary: #6c757d;
+            --light-border: #dee2e6;
+
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #a0a0a0;
+            --dark-border: #333333;
+
+            --primary-color: #007bff;
+            --border-radius: 8px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light-mode {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        .container {
+            max-width: 90%%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .light-mode .container {
+            background-color: var(--light-surface);
+        }
+        .dark-mode .container {
+            background-color: var(--dark-surface);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid;
+            z-index: 1000;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .light-mode header {
+            background-color: var(--light-surface);
+            border-color: var(--light-border);
+        }
+        .dark-mode header {
+            background-color: var(--dark-surface);
+            border-color: var(--dark-border);
+        }
+        main {
+            padding-top: 100px; /* Adjust based on header height */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .light-mode nav a:hover { color: var(--light-text); }
+        .dark-mode nav a:hover { color: var(--light-bg); }
+        #theme-switcher {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 20px;
+        }
+        .mood-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .mood-selector input { display: none; }
+        .mood-selector label {
+            cursor: pointer;
+            font-size: 2.5rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .mood-selector input:checked + label {
+            transform: scale(1.3);
+            filter: saturate(1.5);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        main > * {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .light-mode .form-group input, .light-mode .form-group textarea {
+            background-color: var(--light-surface);
+            color: var(--light-text);
+            border-color: var(--light-border);
+        }
+        .dark-mode .form-group input, .dark-mode .form-group textarea {
+            background-color: var(--dark-surface);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .summary {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .light-mode .summary { background-color: var(--light-bg); }
+        .dark-mode .summary { background-color: var(--dark-bg); }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .charts-grid h2 {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Daily Mood Tracker</h1>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/report">Report</a>
+                <button id="theme-switcher">🌓</button>
+            </nav>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <form action="/" method="POST">
+                    <div class="form-group">
+                        <label>How are you feeling today?</label>
+                    <div class="mood-selector">
+                        <input type="radio" id="happy" name="emotion" value="Happy|😄" required><label for="happy">😄</label>
+                        <input type="radio" id="sad" name="emotion" value="Sad|😢"><label for="sad">😢</label>
+                        <input type="radio" id="excited" name="emotion" value="Excited|🎉"><label for="excited">🎉</label>
+                        <input type="radio" id="love" name="emotion" value="Love|❤️"><label for="love">❤️</label>
+                        <input type="radio" id="nice" name="emotion" value="Nice|👍"><label for="nice">👍</label>
+                        <input type="radio" id="bad" name="emotion" value="Bad|👎"><label for="bad">👎</label>
+                        <input type="radio" id="angry" name="emotion" value="Angry|😡"><label for="angry">😡</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags">Tags (e.g., work, family, hobby)</label>
+                    <input type="text" id="tags" name="tags">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Log My Mood</button>
+                </form>
+            </div>
+
+            <div class="summary">
+                <h2>This Month's Vibe</h2>
+                {% if most_common_mood %}
+                    <p>Your most frequent mood this month has been: <strong>{{ most_common_mood }}</strong></p>
+                {% else %}
+                    <p>No moods logged this month yet. Let's start!</p>
+                {% endif %}
+            </div>
+
+            <div class="charts-grid">
+                <div>
+                    <h2>Day-wise Mood Trend</h2>
+                    <canvas id="monthlyTrendChart"></canvas>
+                </div>
+                <div>
+                    <h2>Overall Mood Frequency</h2>
+                    <canvas id="moodChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
